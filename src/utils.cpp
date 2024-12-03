@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <math.h>
 
 #include "utils.h"
 
@@ -45,4 +46,12 @@ void fprintfnTab(FILE* fp, int n){
 void clearBuffer(){
     int character = 0;
     while ((character = getchar()) != '\n' && character != EOF){}
+}
+
+int cmpf(double num1, double num2){
+    if (fabs(num1 - num2) < 0.001){
+        return 1;
+    }
+
+    return 0;
 }

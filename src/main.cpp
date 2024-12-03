@@ -22,4 +22,15 @@ int main(){
     else{
         printf("HAVE VARIABLES\n");
     }
+
+    constCollapse(tree->root);
+    binExpTreeDump(DUMP_BET(tree), 0);
+
+    printf("HERE!");
+    simpleCasesCollapse(tree->root);
+    binExpTreeDump(DUMP_BET(tree), 0);
+
+    // simpleCasesCollapse(tree->root);
+    // binExpTreeDump(DUMP_BET(tree), 0);
+
 }
