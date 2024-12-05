@@ -119,8 +119,6 @@ static int simplifyAddSub(Node* root){
     return NO_ERROR;
 }
 
-#undef _CHANGE_BONDS
-
 #define _DTOR(root)             \
     nodesDtor(root->left);      \
     nodesDtor(root->right);     \
@@ -134,12 +132,20 @@ static int simplifyMult(Node* root){
             root->value.number = 0;
             _DTOR(root);
         }
+        if (cmpf(root->left->value.number, 1) == 1){
+            free(root->left);
+            _CHANGE_BONDS(root, root->right);
+        }
     }
     else if (root->right->type == NUM){
         if (cmpf(root->right->value.number, 0) == 1){
             root->type = NUM;
             root->value.number = 0;
             _DTOR(root);
+        }
+        if (cmpf(root->right->value.number, 1) == 1){
+            free(root->right);
+            _CHANGE_BONDS(root, root->left);
         }
     }
 

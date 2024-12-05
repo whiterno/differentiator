@@ -3,6 +3,7 @@
 #include "read_file.h"
 #include "simplification.h"
 #include "node_utils.h"
+#include "differentiator.h"
 
 #include "bin_exp_tree.h"
 #include "dump_bet.h"
@@ -15,15 +16,12 @@ int main(){
 
     binExpTreeDump(DUMP_BET(tree), 0);
 
-    Node res = getTreeValue(tree->root);
-    printf("RES TYPE: %d\n", res.type);
-    if (res.type == NUM){
-        printf("RESULT: %lf\n", res.value.number);
-    }
-    else{
-        printf("HAVE VARIABLES\n");
-    }
-
     simplifyTree(tree->root);
     binExpTreeDump(DUMP_BET(tree), 0);
+
+    BinExpTree* diff_tree = NULL;
+    binExpTreeCtor(&diff_tree INIT_BET(diff_tree));
+    diff_tree->root = diff(tree->root);
+    simplifyTree(diff_tree->root);
+    binExpTreeDump(DUMP_BET(diff_tree), 0);
 }
