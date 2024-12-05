@@ -2,6 +2,7 @@
 
 #include "read_file.h"
 #include "simplification.h"
+#include "node_utils.h"
 
 #include "bin_exp_tree.h"
 #include "dump_bet.h"
@@ -23,14 +24,6 @@ int main(){
         printf("HAVE VARIABLES\n");
     }
 
-    constCollapse(tree->root);
+    simplifyTree(tree->root);
     binExpTreeDump(DUMP_BET(tree), 0);
-
-    printf("HERE!");
-    simpleCasesCollapse(tree->root);
-    binExpTreeDump(DUMP_BET(tree), 0);
-
-    // simpleCasesCollapse(tree->root);
-    // binExpTreeDump(DUMP_BET(tree), 0);
-
 }

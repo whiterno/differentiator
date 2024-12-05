@@ -1,5 +1,5 @@
-Headers := include/differentiator.h include/read_file.h include/utils.h include/simplification.h
-Objects := obj/main.o obj/differentiator.o obj/read_file.o obj/utils.o obj/bin_exp_tree.o obj/dump_bet.o obj/simplification.o
+Headers := include/differentiator.h include/read_file.h include/utils.h include/simplification.h include/node_utils.h
+Objects := obj/main.o obj/differentiator.o obj/read_file.o obj/utils.o obj/bin_exp_tree.o obj/dump_bet.o obj/simplification.o obj/node_utils.o
 Flags   := -I include -I lib/bin_exp_tree/include
 
 main.out: ${Objects} $(Headers)
@@ -19,6 +19,9 @@ obj/utils.o: src/utils.cpp ${Headers}
 
 obj/simplification.o: src/simplification.cpp ${Headers}
 	g++ ${Flags}  -c src/simplification.cpp -o obj/simplification.o
+
+obj/node_utils.o: src/node_utils.cpp ${Headers}
+	g++ ${Flags}  -c src/node_utils.cpp -o obj/node_utils.o
 
 library:
 	g++ -c lib/bin_exp_tree/src/bin_exp_tree.cpp -o obj/bin_exp_tree.o

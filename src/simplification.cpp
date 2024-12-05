@@ -5,6 +5,7 @@
 
 #include "simplification.h"
 #include "utils.h"
+#include "node_utils.h"
 
 #include "bin_exp_tree.h"
 
@@ -15,6 +16,20 @@ static int simplifyAddSub(Node* root);
 static int simplifyMult(Node* root);
 static int simplifyDiv(Node* root);
 
+void simplifyTree(Node* root){
+    simpleCasesCollapse(root);
+    constCollapse(root);
+
+    Node* tmp_tree = copyTree(root);
+    if (compareTrees(tmp_tree, root)){
+        nodesDtor(tmp_tree);
+
+        return;
+    }
+    nodesDtor(tmp_tree);
+
+    simplifyTree(root);
+}
 
 Node getTreeValue(Node* root){
     assert(root);
@@ -97,9 +112,7 @@ static int simplifyAddSub(Node* root){
     else if (root->right->type == NUM){
         if (cmpf(root->right->value.number, 0) == 1){
             free(root->right);
-            printf("IM here write me pleses\n");
             _CHANGE_BONDS(root, root->left);
-            printf("IM here write me pleses\n");
         }
     }
 

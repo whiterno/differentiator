@@ -48,7 +48,7 @@ void clearBuffer(){
     while ((character = getchar()) != '\n' && character != EOF){}
 }
 
-int cmpf(double num1, double num2){
+bool cmpf(double num1, double num2){
     if (fabs(num1 - num2) < 0.001){
         return 1;
     }
