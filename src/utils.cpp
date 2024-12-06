@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <math.h>
+#include <ctype.h>
 
 #include "utils.h"
 
@@ -54,4 +55,10 @@ bool cmpf(double num1, double num2){
     }
 
     return 0;
+}
+
+void skipSpaces(char** string){
+    while (isspace(**string)){
+        (*string)++;
+    }
 }

@@ -11,8 +11,6 @@
 
 #define _NUM(value)         createNode(NULL, NULL, NUM, (NodeValue){.number = value})
 
-#define _X                  createNode(NULL, NULL, VAR, (NodeValue){.variable = 'x'})
-
 static Node* diffOper(Node* root);
 
 Node* diff(Node* root){
@@ -57,8 +55,3 @@ static Node* diffOper(Node* root){
         }
     }
 }
-
-#undef _COPY_L
-#undef _COPY_R
-#undef _DIFF_L
-#undef _DIFF_R

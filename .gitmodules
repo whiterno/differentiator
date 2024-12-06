@@ -1,3 +1,6 @@
 [submodule "lib/bin_exp_tree"]
 	path = lib/bin_exp_tree
 	url = https://github.com/whiterno/bin_exp_tree.git
+[submodule "lib/stack"]
+	path = lib/stack
+	url = https://github.com/whiterno/stack.git
