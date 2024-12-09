@@ -94,10 +94,18 @@ static DataType getDataType(char value[]){
 
     if (isdigit(value[0]) || (value[0] == '-' && isdigit(value[1]))) return NUM;
 
-    bool isOper = strcmp(value, "+") == 0 ||
-                  strcmp(value, "-") == 0 ||
-                  strcmp(value, "*") == 0 ||
-                  strcmp(value, "/") == 0;
+    bool isOper = strcmp(value, "+")    == 0 ||
+                  strcmp(value, "-")    == 0 ||
+                  strcmp(value, "*")    == 0 ||
+                  strcmp(value, "/")    == 0 ||
+                  strcmp(value, "^")    == 0 ||
+                  strcmp(value, "ln")   == 0 ||
+                  strcmp(value, "sin")  == 0 ||
+                  strcmp(value, "cos")  == 0 ||
+                  strcmp(value, "tg")   == 0 ||
+                  strcmp(value, "ctg")  == 0 ||
+                  strcmp(value, "exp")  == 0 ||
+                  strcmp(value, "log")  == 0;
 
     if (isOper) return OPER;
 
@@ -113,10 +121,18 @@ static NodeValue getNodeValue(char value[], DataType data_type){
 }
 
 static Operations getOper(char value[]){
-    if (strcmp(value, "+") == 0) return ADD;
-    if (strcmp(value, "-") == 0) return SUB;
-    if (strcmp(value, "*") == 0) return MULT;
-    if (strcmp(value, "/") == 0) return DIV;
+    if (strcmp(value, "+") == 0)    return ADD;
+    if (strcmp(value, "-") == 0)    return SUB;
+    if (strcmp(value, "*") == 0)    return MULT;
+    if (strcmp(value, "/") == 0)    return DIV;
+    if (strcmp(value, "^") == 0)    return POW;
+    if (strcmp(value, "ln") == 0)   return LN;
+    if (strcmp(value, "sin") == 0)  return SIN;
+    if (strcmp(value, "cos") == 0)  return COS;
+    if (strcmp(value, "tg") == 0)   return TAN;
+    if (strcmp(value, "ctg") == 0)  return COT;
+    if (strcmp(value, "exp") == 0)  return EXP;
+    if (strcmp(value, "log") == 0)  return LOG;
 
     return UNKNOWN;
 }
