@@ -1,3 +1,4 @@
 grammar
 main.out
 obj/*
+.vscode/*
