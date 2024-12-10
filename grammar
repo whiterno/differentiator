@@ -1,6 +1,0 @@
-E = T1 + E | T1 - E | T1
-T1 = T2 * T1 | T2 / T1 | T2
-T2 = T3 ^ T2 | T3
-T3 = FUNC(LST) | T4
-T4 = (E) | N | V
-LST = E,E | E
