@@ -112,9 +112,6 @@ Token* lexer(char* expression){
         addOpNumVar(&expression, &end);
     }
 
-    printTokens(tokens);
-    printf("\n\n\n RECURSIVE DESCENT\n");
-
     return tokens;
 }
 

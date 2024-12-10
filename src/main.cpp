@@ -20,14 +20,14 @@ int main(){
     // simplifyTree(tree->root);
     // binExpTreeDump(DUMP_BET(tree), 0);
 
-    // BinExpTree* diff_tree = NULL;
-    // binExpTreeCtor(&diff_tree INIT_BET(diff_tree));
-    // diff_tree->root = diff(tree->root);
-    // simplifyTree(diff_tree->root);
-    // binExpTreeDump(DUMP_BET(diff_tree), 0);
-
     tree->root = recursiveDescent("pars_expr");
     binExpTreeDump(DUMP_BET(tree), 0);
     simplifyTree(tree->root);
     binExpTreeDump(DUMP_BET(tree), 0);
+
+    BinExpTree* diff_tree = NULL;
+    binExpTreeCtor(&diff_tree INIT_BET(diff_tree));
+    diff_tree->root = diff(tree->root);
+    simplifyTree(diff_tree->root);
+    binExpTreeDump(DUMP_BET(diff_tree), 0);
 }

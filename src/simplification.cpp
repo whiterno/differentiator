@@ -196,8 +196,6 @@ static int simplifyPow(Node* root){
 }
 
 static int simplifyLog(Node* root){
-    printf("I'm lost\n");
-
      if (root->right->type == NUM){
         if (cmpf(root->right->value.number, 1) == 1){
             root->type = NUM;
