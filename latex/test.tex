@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[T2]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage[left=3cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{indentfirst}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{emoji}
+
+\begin{document}
+
+    \section*{\Huge Number Theory}
+
+        \subsection*{\huge Task 9.1}
+        {\Large
+            $1495 = 5\cdot13\cdot23$
+            \par $3156^{792} \equiv (3156^{4})^{198} \equiv 1$ (mod 5)
+            \par $3156^{792} \equiv (3156^{12})^{66} \equiv 1$ (mod 13)
+            \par $3156^{792} \equiv (3156^{22})^{36} \equiv 1$ (mod 23) \par
+            Эти выводы сделаны по малой теореме Ферма для простых чисел 5, 13, 23. \par
+            По китайской теореме об остатках (далее КТО): \par
+            $3156^{792} \equiv 1$ (mod 5 * 13 * 23 = 1495)
+        }
+
+        \subsection*{\huge Task 9.2}
+        {\Large
+            a)$x^2 \equiv x^2$ (mod p)\par
+            $x^2 \equiv x^2 - 2px + p^2$ (mod p)\par
+            $x^2 \equiv (p - x)^2$ (mod p)\par
+            Таким образом количество квадратичных вычетов <= $\frac{p-1}{2}$\par
+            Возьмем числа x $\neq$ y из \{1, ..., $\frac{p-1}{2}$\}, докажем, что невозможно $x^2 \equiv y^2$(mod p)\par
+            $(x - y)(x + y) \equiv 0$ (mod p)\par
+            |x - y| < p, x + y < p => (x - y)(x + y) не кратно p => среди чисел 1 ... p - 1 находится $\frac{p-1}{2}$ квадратичных вычетов\par
+            б) Для 17: $\frac{17 - 1}{ 2} = 8$ квадратичных вычетов
+        }
+
+        \subsection*{\huge Task 9.3}
+        {\Large
+            Рассмотрим числа $2^n - 1, 2^n, 2^n+1$. Среди 3 последовательных чисел долнжо быть хотя бы 1 кратное 3, но так как $2^n - 1$ и $2^n + 1$ простые, то $2^n$ кратно 3, что невозможно
+        }
+
+        \subsection*{\huge Task 9.4}
+        {\Large
+            Пусть n > m:\par
+            $(2^n - 1, 2^m - 1) = (2^n - 2^m + 2^m - 1, 2^m - 1) = (2^n - 2^m, 2^m - 1)$\par
+            $(2^m(2^{n-m} - 1), 2^m - 1) = ((2^m - 1)(2^{n-m} - 1) + 1\cdot(2^{n-m}-1), 2^m - 1)$\par
+            $(2^{n-m} - 1, 2^m - 1)$\par
+            Повторяя аналогичные действия до конца (они ведь закончатся?...(Да, закончатся)) понимаем, что выполняется алгоритм Евклида для степеней =>\par
+            $(2^n - 1, 2^m - 1) = 2^{(n,m)} - 1$
+        }
+
+        \subsection*{\huge Task 9.5}
+        {\Large
+            $S = n^2 + (n+1)^2 + (n + 2)^2 + (n+3)^2 + (n+4)^2$\par
+            $S = n^2 + n^2 + 2n + 1 + n^2 + 4n + 4 + n^2 + 6n + 9 + n^2 + 8n + 16$\par
+            $S = 5n^2 + 20n + 30 = 5(n^2 + 4n + 6)$\par
+            То есть, если S квадрат некоего целого числа и кратно 5, то S кратно и 25. Таким образом $n^2 + 4n + 6$ кратно 5.\par
+            Проверим, возможно ли такое. Так как остатки образуют цикл, проверим для $n \equiv 0, 1, 2, 3, 4$ (mod 5):\par
+            $n \equiv 0$ (mod 5) => $n^2 + 4n + 6 \equiv 0 + 0 + 6 \equiv 1$ (mod 5)\par
+            $n \equiv 1$ (mod 5) => $n^2 + 4n + 6 \equiv 1 + 4 + 6 \equiv 1$ (mod 5)\par
+            $n \equiv 2$ (mod 5) => $n^2 + 4n + 6 \equiv 4 + 8 + 6 \equiv 3$ (mod 5)\par
+            $n \equiv 3$ (mod 5) => $n^2 + 4n + 6 \equiv 9 + 12 + 6 \equiv 2$ (mod 5)\par
+            $n \equiv 4$ (mod 5) => $n^2 + 4n + 6 \equiv 16 + 16 + 6 \equiv 3$ (mod 5)\par
+            Таким образом S не может быть кратно 25, то есть S не квадрат
+        }
+
+        \subsection*{\huge Task 9.6}
+        {\Large
+            \begin{cases}
+		    $x \equiv 1$ (mod 2) \\
+            $x \equiv 2$ (mod 3) \\
+            $x \equiv 4$ (mod 5) \\
+            $x \equiv 6$ (mod 7) \\
+		    \end{cases}
+            =>
+            \begin{cases}
+		    $x \equiv -1$ (mod 2) \\
+            $x \equiv -1$ (mod 3) \\
+            $x \equiv -1$ (mod 5) \\
+            $x \equiv -1$ (mod 7) \\
+		    \end{cases}
+        \par Таким образом $x \equiv -1$ (mod 2 * 3 * 5 * 7 = 210) => $x \equiv 209$ (mod 210)
+        }
+
+        \subsection*{\huge Task 9.7}
+        {\Large
+            Так как gcd(a, b) = 1 по условию, то можно применить к ним теорему Эйлера:\par
+            \begin{cases}
+                $a^{\phi(b)} \equiv 1$ (mod b)\\
+                $b^{\phi(a)} \equiv 1$ (mod a)
+            \end{cases}
+            =>
+            \begin{cases}
+                $a^{\phi(b)} + b^{\phi(a)} \equiv 1$ (mod b)\\
+                $a^{\phi(b)} + b^{\phi(a)} \equiv 1$ (mod a)
+            \end{cases}
+        \par По КТО (отсылка из 9.1) $a^{\phi(b)} + b^{\phi(a)} \equiv 1$ (mod ab)
+        }
+
+        \subsection*{\huge Task 9.8 (ура, ура)}
+        {\Large
+            По малой теореме Ферма $1^{p-1}, 2^{p-1}...(p-1)^{p-1}$ сравнимы с 1 по mod p. Таким образом многочлен $x^{p-1} - 1$ имеет ровно p - 1 решение в $Z_p$. Значит имеет место тождество:
+            $x^{p-1} -1 \equiv (x-1)(x-2)...(x - (p-1))$ (mod p)
+            В частности:\par
+            $-1 \equiv (-1)(-2)...(-p+1)$ (mod p)\par
+            Если p = 2: (2 - 1)!  + 1 = 2 $\equiv$ 0 (mod 2)\par
+            В иных случаях p нечетное, тогда:
+            $-1 \equiv 1\cdot2 ... (p-1) = (p-1)!$ (mod p)\par
+            $(p-1)! + 1 \equiv 0$ (mod p)
+        }
+
+\end{document}

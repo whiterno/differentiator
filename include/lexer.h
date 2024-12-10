@@ -22,5 +22,8 @@ struct Token{
 };
 
 Token* lexer(char* expression);
+void printTokens(Token* tokens);
+void printExp(Token* tokens);
+void printToken(Token* tokens);
 
 #endif

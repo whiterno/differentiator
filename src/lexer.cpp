@@ -29,7 +29,7 @@ static const char* enumToString(Operations enumerator);
 
 //DEBUG
 
-static void printTokens(Token* tokens){
+void printTokens(Token* tokens){
     if (tokens == NULL) return;
 
     switch (tokens->type)
@@ -53,6 +53,51 @@ static void printTokens(Token* tokens){
     printTokens(tokens->next);
 }
 
+void printExp(Token* tokens){
+    if (tokens == NULL) return;
+
+    switch (tokens->type)
+    {
+    case(OPERATION):{
+        printf(" %s ", enumToString(tokens->value.operation_type)); break;
+    }
+    case(VARIABLE):{
+        printf(" %c ", tokens->value.variable); break;
+    }
+    case(NUMBER):{
+        printf(" %lg ", tokens->value.number); break;
+    }
+    case(SEPARATOR):{
+        printf(" %c ", tokens->value.variable); break;
+    }
+    default:
+        break;
+    }
+
+    printTokens(tokens->next);
+}
+
+void printToken(Token* tokens){
+    if (tokens == NULL) return;
+
+    switch (tokens->type)
+    {
+    case(OPERATION):{
+        printf("OPERATION: %s \n", enumToString(tokens->value.operation_type)); break;
+    }
+    case(VARIABLE):{
+        printf("VARIABLE:  %c \n", tokens->value.variable); break;
+    }
+    case(NUMBER):{
+        printf("NUMBER:    %lg \n", tokens->value.number); break;
+    }
+    case(SEPARATOR):{
+        printf("SEPARATOR: %c \n", tokens->value.variable); break;
+    }
+    default:
+        break;
+    }
+}
 //DEBUG
 
 Token* lexer(char* expression){
@@ -68,6 +113,7 @@ Token* lexer(char* expression){
     }
 
     printTokens(tokens);
+    printf("\n\n\n RECURSIVE DESCENT\n");
 
     return tokens;
 }

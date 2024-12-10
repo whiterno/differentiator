@@ -27,4 +27,7 @@ int main(){
     // binExpTreeDump(DUMP_BET(diff_tree), 0);
 
     tree->root = recursiveDescent("pars_expr");
+    binExpTreeDump(DUMP_BET(tree), 0);
+    simplifyTree(tree->root);
+    binExpTreeDump(DUMP_BET(tree), 0);
 }
