@@ -5,5 +5,6 @@
 
 Node* copyTree(Node* root);
 bool compareTrees(Node* root1, Node* root2);
+Node* makeParents(Node* root, Node* parent);
 
 #endif

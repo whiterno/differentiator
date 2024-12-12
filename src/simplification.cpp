@@ -22,10 +22,10 @@ static int simplifyLog(Node* root);
 void simplifyTree(Node* root){
     Node* tmp_tree = NULL;
     do{
+        tmp_tree = copyTree(root);
+
         simpleCasesCollapse(root);
         constCollapse(root);
-
-        tmp_tree = copyTree(root);
     }while (!compareTrees(tmp_tree, root));
     nodesDtor(tmp_tree);
 }

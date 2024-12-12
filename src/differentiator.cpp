@@ -13,9 +13,9 @@ Node* diff(Node* root){
     if (root == NULL) return NULL;
 
     switch(root->type){
-        case(OPER): return diffOper(root);
-        case(VAR):  return _NUM(1);
-        case(NUM):  return _NUM(0);
+        case(OPER): return makeParents(diffOper(root), NULL);
+        case(VAR):  return makeParents(_NUM(1), NULL);
+        case(NUM):  return makeParents(_NUM(0), NULL);
     }
 }
 
@@ -45,8 +45,8 @@ static Node* diffOper(Node* root){
 #undef _DEF_CMD
 
 static Node* diffPow(Node* root){
-    Node base   = getTreeValue(root);
-    Node power  = getTreeValue(root);
+    Node base   = getTreeValue(root->left);
+    Node power  = getTreeValue(root->right);
 
     if (base.type == OPER && power.type == OPER){
         return _MULT(

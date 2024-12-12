@@ -31,6 +31,17 @@ bool compareTrees(Node* root1, Node* root2){
     return false;
 }
 
+Node* makeParents(Node* root, Node* parent){
+    if (root == NULL) return root;
+
+    root->parent = parent;
+
+    makeParents(root->left, root);
+    makeParents(root->right, root);
+
+    return root;
+}
+
 static bool compareNodes(Node* node1, Node* node2){
     if ((node1 == NULL && node2 != NULL) ||
         (node1 != NULL && node2 == NULL))   return false;
@@ -57,4 +68,3 @@ static Node* copyNode(Node* node){
 
     return new_node;
 }
-

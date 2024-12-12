@@ -6,18 +6,19 @@
 #include "utils.h"
 #include "lexer.h"
 #include "parsing.h"
+#include "node_utils.h"
 #include "node_defines.h"
 
 #include "bin_exp_tree.h"
 
-static Node* getE(Token** tokens);
-static Node* getT1(Token** tokens);
-static Node* getT2(Token** tokens);
-static Node* getT3(Token** tokens);
-static Node* getT4(Token** tokens);
+static Node* getExpression(Token** tokens);
+static Node* getMultDiv(Token** tokens);
+static Node* getPow(Token** tokens);
+static Node* getFuncNumVar(Token** tokens);
+static Node* getNumVar(Token** tokens);
 static Node* getFunc(Token** tokens);
-static Node* getN(Token** tokens);
-static Node* getV(Token** tokens);
+static Node* getNum(Token** tokens);
+static Node* getVar(Token** tokens);
 
 static bool isFunc(Operations operation);
 static void syntaxError(Token** tokens);
@@ -32,81 +33,82 @@ Node* recursiveDescent(const char* filename){
     Token* tokens = lexer(expression);
     free(expression);
 
-    Node* root = getE(&tokens->next);
+    Node* root = getExpression(&tokens->next);
+    makeParents(root, NULL);
 
     return root;
 }
 
-static Node* getE(Token** tokens){
+static Node* getExpression(Token** tokens){
     if (*tokens == NULL) return NULL;
 
-    Node* t1 = getT1(tokens);
+    Node* t1 = getMultDiv(tokens);
 
     if ((*tokens != NULL) && (*tokens)->type == OPERATION && (*tokens)->value.operation_type == ADD){
         *tokens = (*tokens)->next;
 
-        return _ADD(t1, getE(tokens));
+        return _ADD(t1, getExpression(tokens));
     }
 
     if ((*tokens != NULL) && (*tokens)->type == OPERATION && (*tokens)->value.operation_type == SUB){
         *tokens = (*tokens)->next;
 
-        return _SUB(t1, getE(tokens));
+        return _SUB(t1, getExpression(tokens));
     }
 
     return t1;
 }
 
-static Node* getT1(Token** tokens){
+static Node* getMultDiv(Token** tokens){
     checkEnd(tokens);
 
-    Node* t2 = getT2(tokens);
+    Node* t2 = getPow(tokens);
 
     if ((*tokens != NULL) && (*tokens)->type == OPERATION && (*tokens)->value.operation_type == MULT){
         *tokens = (*tokens)->next;
 
-        return _MULT(t2, getT1(tokens));
+        return _MULT(t2, getMultDiv(tokens));
     }
 
     if ((*tokens != NULL) && (*tokens)->type == OPERATION && (*tokens)->value.operation_type == DIV){
         *tokens = (*tokens)->next;
 
-        return _DIV(t2, getT1(tokens));
+        return _DIV(t2, getMultDiv(tokens));
     }
 
     return t2;
 }
 
-static Node* getT2(Token** tokens){
+static Node* getPow(Token** tokens){
     checkEnd(tokens);
 
-    Node* t3 = getT3(tokens);
+    Node* t3 = getFuncNumVar(tokens);
 
     if ((*tokens != NULL) && (*tokens)->type == OPERATION && (*tokens)->value.operation_type == POW){
         *tokens = (*tokens)->next;
 
-        return _POW(t3, getT2(tokens));
+        return _POW(t3, getPow(tokens));
     }
 
     return t3;
 }
 
-static Node* getT3(Token** tokens){
+static Node* getFuncNumVar(Token** tokens){
     checkEnd(tokens);
 
     if ((*tokens)->type == OPERATION && isFunc((*tokens)->value.operation_type)){
         return getFunc(tokens);
     }
 
-    return getT4(tokens);
+    return getNumVar(tokens);
 }
 
-static Node* getT4(Token** tokens){
+static Node* getNumVar(Token** tokens){
     checkEnd(tokens);
 
     if ((*tokens)->type == SEPARATOR && (*tokens)->value.variable == '('){
         *tokens = (*tokens)->next;
-        Node* exp = getE(tokens);
+        Node* exp = getExpression(tokens);
 
         if (!((*tokens)->type == SEPARATOR) || !((*tokens)->value.variable == ')')){
             printf("NO CLOSING BRACKET\n");
@@ -119,11 +121,11 @@ static Node* getT4(Token** tokens){
     }
 
     if ((*tokens)->type == NUMBER){
-        return getN(tokens);
+        return getNum(tokens);
     }
 
     if ((*tokens)->type == VARIABLE){
-        return getV(tokens);
+        return getVar(tokens);
     }
 
     syntaxError(tokens);
@@ -139,7 +141,7 @@ static Node* getFunc(Token** tokens){
     if (op == LOG){
         *tokens = (*tokens)->next;
         *tokens = (*tokens)->next;
-        Node* func = _LOG(getE(tokens), getE(tokens));
+        Node* func = _LOG(getExpression(tokens), getExpression(tokens));
         *tokens = (*tokens)->next;
 
         return func;
@@ -148,7 +150,7 @@ static Node* getFunc(Token** tokens){
     if (op == SIN || op == COS || op == TAN || op == COT){
         *tokens = (*tokens)->next;
         *tokens = (*tokens)->next;
-        Node* func = createNode(_NUM(-1), getE(tokens), OPER, (NodeValue){.operation_type = op});
+        Node* func = createNode(_NUM(-1), getExpression(tokens), OPER, (NodeValue){.operation_type = op});
         *tokens = (*tokens)->next;
 
         return func;
@@ -157,7 +159,7 @@ static Node* getFunc(Token** tokens){
     if (op == LN || op == EXP){
         *tokens = (*tokens)->next;
         *tokens = (*tokens)->next;
-        Node* func = createNode(_E, getE(tokens), OPER, (NodeValue){.operation_type = op});
+        Node* func = createNode(_E, getExpression(tokens), OPER, (NodeValue){.operation_type = op});
         *tokens = (*tokens)->next;
 
         return func;
@@ -169,7 +171,7 @@ static Node* getFunc(Token** tokens){
     return NULL;
 }
 
-static Node* getN(Token** tokens){
+static Node* getNum(Token** tokens){
     checkEnd(tokens);
 
     Node* num = _NUM((*tokens)->value.number);
@@ -178,7 +180,7 @@ static Node* getN(Token** tokens){
     return num;
 }
 
-static Node* getV(Token** tokens){
+static Node* getVar(Token** tokens){
     checkEnd(tokens);
 
     Node* var = _VAR((*tokens)->value.variable);

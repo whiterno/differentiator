@@ -1,8 +1,8 @@
 .PHONY: clean run
 
-Headers := include/differentiator.h include/read_file.h include/utils.h include/simplification.h include/node_utils.h include/parsing.h include/lexer.h include/node_defines.h
-Objects := obj/main.o obj/differentiator.o obj/read_file.o obj/utils.o obj/bin_exp_tree.o obj/dump_bet.o obj/simplification.o obj/node_utils.o obj/parsing.o obj/lexer.o
-Flags   := -I include -I lib/bin_exp_tree/include -I lib/stack/stack_hcpp -I code_generation
+Headers := include/differentiator.h include/read_file.h include/utils.h include/simplification.h include/node_utils.h include/parsing.h include/lexer.h include/node_defines.h latex/latex.h
+Objects := obj/main.o obj/differentiator.o obj/read_file.o obj/utils.o obj/bin_exp_tree.o obj/dump_bet.o obj/simplification.o obj/node_utils.o obj/parsing.o obj/lexer.o obj/latex.o
+Flags   := -I include -I lib/bin_exp_tree/include -I lib/stack/stack_hcpp -I code_generation -I latex
 
 main.out: ${Objects} $(Headers)
 	g++ ${Flags} ${Objects} -o main.out
@@ -30,6 +30,9 @@ obj/parsing.o: src/parsing.cpp ${Headers}
 
 obj/lexer.o: src/lexer.cpp ${Headers}
 	g++ ${Flags}  -c src/lexer.cpp -o obj/lexer.o
+
+obj/latex.o: latex/latex.cpp ${Headers}
+	g++ ${Flags}  -c latex/latex.cpp -o obj/latex.o
 
 library:
 	g++ -c lib/bin_exp_tree/src/bin_exp_tree.cpp -o obj/bin_exp_tree.o
