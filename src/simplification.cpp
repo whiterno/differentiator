@@ -199,7 +199,7 @@ static int simplifyLog(Node* root){
      if (root->right->type == NUM){
         if (cmpf(root->right->value.number, 1) == 1){
             root->type = NUM;
-            root->value.number = 1;
+            root->value.number = 0;
             _DTOR(root);
         }
     }

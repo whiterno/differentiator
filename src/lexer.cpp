@@ -8,12 +8,16 @@
 
 #include "bin_exp_tree.h"
 
-#define _ADD        createToken(OPERATION, (TokenValue){.operation_type = ADD})
-#define _SUB        createToken(OPERATION, (TokenValue){.operation_type = SUB})
-#define _MULT       createToken(OPERATION, (TokenValue){.operation_type = MULT})
-#define _DIV        createToken(OPERATION, (TokenValue){.operation_type = DIV})
+#define _ADD            createToken(OPERATION, (TokenValue){.operation_type = ADD})
+#define _SUB            createToken(OPERATION, (TokenValue){.operation_type = SUB})
+#define _MULT           createToken(OPERATION, (TokenValue){.operation_type = MULT})
+#define _DIV            createToken(OPERATION, (TokenValue){.operation_type = DIV})
 
-#define _SEP(sep)   createToken(SEPARATOR, (TokenValue){.variable = sep})
+#define _SEP(sep)       createToken(SEPARATOR, (TokenValue){.variable = sep})
+
+#define _NUM(value)     createToken(NUMBER, (TokenValue){.number = value})
+#define _VAR(value)     createToken(VARIABLE, (TokenValue){.variable = value})
+#define _OPER(value)    createToken(OPERATION, (TokenValue){.operation_type = value})
 
 static Token*       createToken(TokenType type, TokenValue value);
 static Token*       addToken(Token* last_token, Token* add_token);
@@ -153,7 +157,7 @@ static Token* getNum(char** expression){
         }
     }
 
-    return createToken(NUMBER, (TokenValue){.number = atof(value)});
+    return _NUM(atof(value));
 }
 
 static Token* getStr(char** expression){
@@ -173,46 +177,29 @@ static Token* getStr(char** expression){
 
     TokenType type = getTokenType(value);
     if (type == OPERATION){
-        return createToken(OPERATION, (TokenValue){.operation_type = getOper(value)});
+        return _OPER(getOper(value));
     }
 
-    return createToken(VARIABLE, (TokenValue){.variable = value[0]});
+    return _VAR(value[0]);
+}
+
+#define _DEF_CMD(name, sign, ...){                  \
+    if (strcmp(value, sign) == 0)    return name;   \
 }
 
 static Operations getOper(char value[]){
-    if (strcmp(value, "+") == 0)    return ADD;
-    if (strcmp(value, "-") == 0)    return SUB;
-    if (strcmp(value, "*") == 0)    return MULT;
-    if (strcmp(value, "/") == 0)    return DIV;
-    if (strcmp(value, "^") == 0)    return POW;
-    if (strcmp(value, "ln") == 0)   return LN;
-    if (strcmp(value, "sin") == 0)  return SIN;
-    if (strcmp(value, "cos") == 0)  return COS;
-    if (strcmp(value, "tg") == 0)   return TAN;
-    if (strcmp(value, "ctg") == 0)  return COT;
-    if (strcmp(value, "exp") == 0)  return EXP;
-    if (strcmp(value, "log") == 0)  return LOG;
+
+   #include "code_gen.h"
 
     return UNKNOWN;
 }
 
+#undef _DEF_CMD
+
 static TokenType getTokenType(char value[]){
     assert(value);
 
-    bool isOper = strcmp(value, "+")    == 0 ||
-                  strcmp(value, "-")    == 0 ||
-                  strcmp(value, "*")    == 0 ||
-                  strcmp(value, "/")    == 0 ||
-                  strcmp(value, "^")    == 0 ||
-                  strcmp(value, "ln")   == 0 ||
-                  strcmp(value, "sin")  == 0 ||
-                  strcmp(value, "cos")  == 0 ||
-                  strcmp(value, "tg")   == 0 ||
-                  strcmp(value, "ctg")  == 0 ||
-                  strcmp(value, "exp")  == 0 ||
-                  strcmp(value, "log")  == 0;
-
-    if (isOper) return OPERATION;
+    if (getOper(value) != UNKNOWN) return OPERATION;
 
     return VARIABLE;
 }
@@ -237,25 +224,17 @@ static Token* addToken(Token* last_token, Token* add_token){
     return last_token->next;
 }
 
-#define _DESCR(enumer) case(enumer): return #enumer
+#define _DEF_CMD(name, ...) case(name): return #name;
+
 static const char* enumToString(Operations enumerator){
     switch (enumerator)
     {
-    _DESCR(ADD);
-    _DESCR(SUB);
-    _DESCR(MULT);
-    _DESCR(DIV);
-    _DESCR(LN);
-    _DESCR(EXP);
-    _DESCR(SIN);
-    _DESCR(COS);
-    _DESCR(TAN);
-    _DESCR(COT);
-    _DESCR(POW);
-    _DESCR(LOG);
-    _DESCR(UNKNOWN);
+
+    #include "code_gen.h"
+
+    _DEF_CMD(UNKNOWN);
     }
 
     return "IDK_YOU_IDIOT";
 }
-#undef _DESCR
+#undef _DEF_CMD

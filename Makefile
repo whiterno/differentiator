@@ -1,8 +1,8 @@
 .PHONY: clean run
 
-Headers := include/differentiator.h include/read_file.h include/utils.h include/simplification.h include/node_utils.h include/parsing.h include/lexer.h
+Headers := include/differentiator.h include/read_file.h include/utils.h include/simplification.h include/node_utils.h include/parsing.h include/lexer.h include/node_defines.h
 Objects := obj/main.o obj/differentiator.o obj/read_file.o obj/utils.o obj/bin_exp_tree.o obj/dump_bet.o obj/simplification.o obj/node_utils.o obj/parsing.o obj/lexer.o
-Flags   := -I include -I lib/bin_exp_tree/include -I lib/stack/stack_hcpp
+Flags   := -I include -I lib/bin_exp_tree/include -I lib/stack/stack_hcpp -I code_generation
 
 main.out: ${Objects} $(Headers)
 	g++ ${Flags} ${Objects} -o main.out
