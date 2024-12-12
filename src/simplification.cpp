@@ -37,7 +37,7 @@ Node getTreeValue(Node* root){
 
     if ((root->left == NULL) && (root->type == VAR)){
         result.type                 = OPER;
-        result.value.operation_type = UNKNOWN;
+        result.value.operation_type = UNKNOWN_OPERATION;
 
         return result;
     }
@@ -96,7 +96,7 @@ static int simplifyNode(Node* root){
         case(EXP):  return simplifyPow(root);
         case(LOG):  return simplifyLog(root);
         case(LN):   return simplifyLog(root);
-        default:    return UNKNOWN;
+        default:    return UNKNOWN_OPERATION;
     }
 }
 
@@ -216,7 +216,7 @@ static int simplifyLog(Node* root){
 static Node solveExpression(Node value_left, Node value_right, Operations operation){
     if ((value_left.type == OPER) || (value_right.type == OPER)){
         value_left.type                 = OPER;
-        value_left.value.operation_type = UNKNOWN;
+        value_left.value.operation_type = UNKNOWN_OPERATION;
 
         return value_left;
     }

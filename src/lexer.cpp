@@ -191,7 +191,7 @@ static Operations getOper(char value[]){
 
    #include "code_gen.h"
 
-    return UNKNOWN;
+    return UNKNOWN_OPERATION;
 }
 
 #undef _DEF_CMD
@@ -199,7 +199,7 @@ static Operations getOper(char value[]){
 static TokenType getTokenType(char value[]){
     assert(value);
 
-    if (getOper(value) != UNKNOWN) return OPERATION;
+    if (getOper(value) != UNKNOWN_OPERATION) return OPERATION;
 
     return VARIABLE;
 }
@@ -232,7 +232,7 @@ static const char* enumToString(Operations enumerator){
 
     #include "code_gen.h"
 
-    _DEF_CMD(UNKNOWN);
+    _DEF_CMD(UNKNOWN_OPERATION);
     }
 
     return "IDK_YOU_IDIOT";
